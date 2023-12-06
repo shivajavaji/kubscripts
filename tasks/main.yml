@@ -2,8 +2,8 @@
 # tasks file for kubernetes
 - name: Disable swap in all nodes
   hosts: ansible
-    # vars_file: 
-    #- env_variables
+  vars_files: 
+  - env_variables
   tasks:
    - name: Disable swap
      shell: swapoff -a
