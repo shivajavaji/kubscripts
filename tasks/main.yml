@@ -3,7 +3,7 @@
 - name: Disable swap in all nodes
   hosts: ansible
   vars_files: 
-  - env_variables
+  - package.yml
   tasks:
    - name: Disable swap
      shell: swapoff -a
@@ -27,7 +27,7 @@
     
    - name: Install containerd Runtime
      apt:
-      name: "{{ item }}"
+      name: "{{ packages }}"
       state: present
      become: yes
    - name: enable docker repository
