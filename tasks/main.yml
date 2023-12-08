@@ -27,12 +27,34 @@
     
    - name: Install containerd Runtime
      apt:
-      name: "{{ packages }}"
-      state: present
+       name: "{{ packages }}"
+       state: present
      become: yes
    - name: enable docker repository
-     shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/docker.gpg
-   - name: add repository
-     shell: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+     apt_key:
+       url: https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/docker.gpg
+       state: present
+     register: add-apt-repository
+   - name: add kubernetes repository
+     apt_repository: 
+       repo:  "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+       state: present
+       update_cache: true
+  #  - name: enable docker repository
+  #    shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/docker.gpg
+  #  - name: add repository
+  #    shell: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    #  apt_key:
+    #   url: https://download.docker.com/linux/ubuntu/gpg
+    #   state: present
+    #  register: add_repository_key
+    #  ignore_errors: "{{ kubernetes_apt_ignore_key_error }}"
+   - name: update and install containerd
+     apt:
+       name: update
+   - name: Install containerd
+     apt: 
+      name: containerd
+      state:: present
     
 
