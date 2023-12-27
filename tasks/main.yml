@@ -52,7 +52,7 @@
          #upgrade: "full"  
    - name: Install containerd
      apt: 
-      name: containerd.io
+      name: containerd
       state: present
    - name: Configure containerd to start using systemd as cgroup 
      shell: containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
@@ -67,9 +67,13 @@
        repo: "deb http://apt.kubernetes.io/ kubernetes-xenial main"
        state: present
        update_cache: true
+   - name: update cache
+     apt:
+       update_cache: true
+       upgrade: "full"
    - name: Install iubectl, Kubeadm and kubelet
      apt: 
-      name: kubelet kubeadm kubectl
+      name: "{{kubernetes}}"
       state: present
       update_cache: true
 

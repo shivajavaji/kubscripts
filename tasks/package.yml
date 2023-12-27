@@ -17,6 +17,12 @@ packages:
 - apt-transport-https
 - ca-certificates
 
+kubernetes:
+  #- kubectl
+- docker
+- kubeadm
+- kubelet
+
 services:
 #- docker
 #- kubelet
